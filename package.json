@@ -1,0 +1,143 @@
+{
+	"name": "ruby-debug",
+	"displayName": "Ruby Debug",
+	"version": "0.1.0",
+	"publisher": "castwide",
+	"description": "A Ruby debugger that uses the Debug Adapter Protocol.",
+	"author": {
+		"name": "Fred Snyder"
+	},
+	"license": "MIT",
+	"keywords": [
+		"ruby",
+		"debug adapter protocol"
+	],
+	"engines": {
+		"vscode": "^1.30.0-insider",
+		"node": "^8.9.3"
+	},
+	"icon": "ruby-debugger-icon.png",
+	"categories": [
+		"Debuggers"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/castwide/vscode-ruby-debug"
+	},
+	"bugs": {
+		"url": "https://github.com/castwide/vscode-ruby-debug/issues"
+	},
+	"scripts": {
+		"prepublish": "tsc -p ./src",
+		"compile": "tsc -p ./src",
+		"tslint": "tslint ./src/**/*.ts",
+		"watch": "tsc -w -p ./src",
+		"test": "mocha -u tdd ./out/tests/",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"package": "vsce package",
+		"publish": "vsce publish"
+	},
+	"dependencies": {
+		"await-notify": "1.0.1",
+		"cross-spawn": "6.0.5",
+		"vscode-debugadapter": "1.33.0"
+	},
+	"devDependencies": {
+		"@types/node": "8.9.3",
+		"@types/mocha": "5.2.5",
+		"typescript": "3.1.6",
+		"mocha": "5.2.0",
+		"vscode": "1.1.21",
+		"vscode-debugadapter-testsupport": "1.33.0",
+		"tslint": "5.11.0",
+		"vsce": "1.53.2"
+	},
+	"main": "./out/extension",
+	"activationEvents": [
+		"onDebug",
+		"onCommand:ruby-debug.getProgramName"
+	],
+	"contributes": {
+		"breakpoints": [
+			{
+				"language": "ruby"
+			}
+		],
+		"debuggers": [
+			{
+				"type": "ruby-debug",
+				"label": "Ruby Debug",
+				"configurationAttributes": {
+					"launch": {
+						"required": [
+							"program"
+						],
+						"properties": {
+							"program": {
+								"type": "string",
+								"description": "Absolute path to a text file.",
+								"default": "${workspaceFolder}/${command:AskForProgramName}"
+							},
+							"stopOnEntry": {
+								"type": "boolean",
+								"description": "Automatically stop after launch.",
+								"default": true
+							},
+							"trace": {
+								"type": "boolean",
+								"description": "Enable logging of the Debug Adapter Protocol.",
+								"default": true
+							}
+						}
+					}
+				},
+				"initialConfigurations": [
+					{
+						"type": "ruby-debug",
+						"request": "launch",
+						"name": "Ask for file name",
+						"program": "${workspaceFolder}/${command:AskForProgramName}",
+						"stopOnEntry": true
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "Ruby Debug: Ask for File",
+						"description": "Enter the name of a file to run",
+						"body": {
+							"type": "ruby-debug",
+							"request": "launch",
+							"name": "Ask for file name",
+							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
+							"stopOnEntry": true
+						}
+					},
+					{
+						"label": "Ruby Debug: Run a File",
+						"description": "Run a workspace file",
+						"body": {
+							"type": "ruby-debug",
+							"request": "launch",
+							"name": "Run file",
+							"program": "^\"\\${workspaceFolder}/\\main.rb\"",
+							"stopOnEntry": true
+						}
+					},
+					{
+						"label": "Ruby Debug: Attach",
+						"description": "Attach to a running debugger",
+						"body": {
+							"type": "ruby-debug",
+							"request": "attach",
+							"name": "Attach",
+							"stopOnEntry": true
+						}
+					}
+				],
+				"variables": {
+					"AskForProgramName": "ruby-debug.getProgramName"
+				}
+			}
+		]
+	}
+}
