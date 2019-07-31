@@ -103,7 +103,7 @@
 				"configurationSnippets": [
 					{
 						"label": "Ruby Debug: Ask for File",
-						"description": "Enter the name of a file to run",
+						"description": "Enter the name of a file in the workspace",
 						"body": {
 							"type": "ruby-debug",
 							"request": "launch",
@@ -113,7 +113,7 @@
 						}
 					},
 					{
-						"label": "Ruby Debug: Run a File",
+						"label": "Ruby Debug: Launch File",
 						"description": "Run a workspace file",
 						"body": {
 							"type": "ruby-debug",
