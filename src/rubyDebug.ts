@@ -8,11 +8,12 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 
 	createDebugAdapterDescriptor(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
 		return new Promise((resolve, reject) => {
-			let process: ChildProcess = crossSpawn('ruby', ['D:/Users/fsnyd/Documents/code/rdap/run.rb']);
+			let process: ChildProcess = crossSpawn('readapt', ['server']);
 			let started = false;
+
 			process.stderr.on('data', (buffer: Buffer) => {
 				let text = buffer.toString();
-				if (!started && text.match(/^Rdap Debugger/)) {
+				if (!started && text.match(/^Readapt Debugger/)) {
 					started = true;
 					let socket = new Net.Socket();
 					socket.on('connect', () => {
@@ -20,12 +21,12 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 					});
 					socket.connect(1234, '127.0.0.1');
 				}
-				console.log(text);
+				vscode.debug.activeDebugConsole.append(text);
 			});
+
 			process.stdout.on('data', (buffer: Buffer) => {
-				console.log(buffer.toString());
+				vscode.debug.activeDebugConsole.append(buffer.toString());
 			});
-			this.process = process
 		});
 	}
 

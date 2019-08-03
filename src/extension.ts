@@ -12,7 +12,6 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 	}));
 
-	// register a configuration provider for 'mock' debug type
 	const provider = new RubyConfigurationProvider();
 	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('ruby-debug', provider));
 

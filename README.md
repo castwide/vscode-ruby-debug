@@ -27,10 +27,6 @@ gem 'rdap', group :development
 
 See the [VS Code documentation](https://code.visualstudio.com/docs/editor/debugging) for more information about using debuggers.
 
-## Configuration
-
-
-
 ## Features
 
 * Standard breakpoints
