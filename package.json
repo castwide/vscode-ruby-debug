@@ -16,7 +16,7 @@
 		"vscode": "^1.30.0-insider",
 		"node": "^8.9.3"
 	},
-	"icon": "ruby-debugger-icon.png",
+	"icon": "vscode-ruby-debug.png",
 	"categories": [
 		"Debuggers"
 	],
