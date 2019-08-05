@@ -39,7 +39,7 @@
 	},
 	"dependencies": {
 		"await-notify": "1.0.1",
-		"cross-spawn": "6.0.5",
+		"ruby-spawn": "1.0.0",
 		"vscode-debugadapter": "1.33.0"
 	},
 	"devDependencies": {
@@ -78,15 +78,25 @@
 								"description": "Absolute path to a Ruby file.",
 								"default": "${workspaceFolder}/${command:AskForProgramName}"
 							},
-							"host": {
-								"type": "string",
-								"description": "The debugger host",
-								"default": "127.0.0.1"
+							"programArgs": {
+								"type": "array",
+								"description": "Arguments for the program being debugged",
+								"default": []
 							},
-							"port": {
-								"type": "integer",
-								"description": "The debugger port",
-								"default": 1234
+							"debuggerProgram": {
+								"type": "string",
+								"description": "The path to the readapt executable.",
+								"default": "readapt"
+							},
+							"debuggerProgramArgs": {
+								"type": "array",
+								"description": "Arguments for the debugger",
+								"default": [
+									"--host",
+									"127.0.0.1",
+									"--port",
+									"1234"
+								]
 							}
 						}
 					},
@@ -100,15 +110,20 @@
 								"description": "Absolute path to a Ruby file.",
 								"default": "${workspaceFolder}/${command:AskForProgramName}"
 							},
-							"host": {
+							"debugger": {
 								"type": "string",
-								"description": "The debugger host",
-								"default": "127.0.0.1"
+								"description": "The path to the readapt executable.",
+								"default": "readapt"
 							},
-							"port": {
-								"type": "integer",
-								"description": "The debugger port",
-								"default": 1234
+							"debuggerArgs": {
+								"type": "array",
+								"description": "Arguments for the debugger",
+								"default": [
+									"--host",
+									"127.0.0.1",
+									"--port",
+									"1234"
+								]
 							}
 						}
 					}
@@ -131,12 +146,39 @@
 							"type": "ruby-debug",
 							"request": "launch",
 							"name": "Launch File",
-							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\""
+							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
+							"programArgs": []
+						}
+					},
+					{
+						"label": "Ruby Debug: RSpec",
+						"description": "Debug specs",
+						"body": {
+							"type": "ruby-debug",
+							"request": "launch",
+							"name": "RSpec",
+							"program": "rspec",
+							"programArgs": [
+								"${workspaceFolder}"
+							]
+						}
+					},
+					{
+						"label": "Ruby Debug: Rails",
+						"description": "Debug Rails",
+						"body": {
+							"type": "ruby-debug",
+							"request": "launch",
+							"name": "Rails",
+							"program": "rails",
+							"programArgs": [
+								"s"
+							]
 						}
 					},
 					{
 						"label": "Ruby Debug: Attach",
-						"description": "Attach to Debugger",
+						"description": "Attach to a running debugger",
 						"body": {
 							"type": "ruby-debug",
 							"request": "attach",

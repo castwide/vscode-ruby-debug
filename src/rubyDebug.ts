@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as Net from 'net';
-import { ChildProcess } from 'child_process';
-const crossSpawn = require('cross-spawn');
+import { rubySpawn } from 'ruby-spawn';
 
 export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptorFactory {
 	createDebugAdapterDescriptor(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
@@ -20,7 +19,12 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 				});
 				socket.connect(port, host);
 			} else {
-				let process: ChildProcess = crossSpawn('readapt', ['serve', '--host', host, '--port', port]);
+				let opts = {};
+				if (session.workspaceFolder) {
+					opts['cwd'] = session.workspaceFolder.uri.fsPath;
+				}
+				console.log('Workspace: ' + opts['cwd']);
+				let process = rubySpawn('readapt', ['serve', '--host', host, '--port', port], opts);
 				let started = false;
 
 				process.stderr.on('data', (buffer: Buffer) => {
