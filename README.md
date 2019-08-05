@@ -2,6 +2,8 @@
 
 **A native Ruby debugger using the Debug Adapter Protocol.**
 
+*This extension is still in early development. Please report bugs at [https://github.com/castwide/vscode-ruby-debug](https://github.com/castwide/vscode-ruby-debug).*
+
 ## Requirements
 
 Ruby Debug requires the `readapt` gem. Install it from the command line:
