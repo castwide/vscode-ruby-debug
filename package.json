@@ -75,18 +75,40 @@
 						"properties": {
 							"program": {
 								"type": "string",
-								"description": "Absolute path to a text file.",
+								"description": "Absolute path to a Ruby file.",
 								"default": "${workspaceFolder}/${command:AskForProgramName}"
 							},
-							"stopOnEntry": {
-								"type": "boolean",
-								"description": "Automatically stop after launch.",
-								"default": true
+							"host": {
+								"type": "string",
+								"description": "The debugger host",
+								"default": "127.0.0.1"
 							},
-							"trace": {
-								"type": "boolean",
-								"description": "Enable logging of the Debug Adapter Protocol.",
-								"default": true
+							"port": {
+								"type": "integer",
+								"description": "The debugger port",
+								"default": 1234
+							}
+						}
+					},
+					"attach": {
+						"required": [
+							"program"
+						],
+						"properties": {
+							"program": {
+								"type": "string",
+								"description": "Absolute path to a Ruby file.",
+								"default": "${workspaceFolder}/${command:AskForProgramName}"
+							},
+							"host": {
+								"type": "string",
+								"description": "The debugger host",
+								"default": "127.0.0.1"
+							},
+							"port": {
+								"type": "integer",
+								"description": "The debugger port",
+								"default": 1234
 							}
 						}
 					}
@@ -95,42 +117,31 @@
 					{
 						"type": "ruby-debug",
 						"request": "launch",
-						"name": "Ask for file name",
+						"name": "Launch File",
 						"program": "${workspaceFolder}/${command:AskForProgramName}",
-						"stopOnEntry": true
+						"host": "127.0.0.1",
+						"port": 1234
 					}
 				],
 				"configurationSnippets": [
 					{
-						"label": "Ruby Debug: Ask for File",
-						"description": "Enter the name of a file in the workspace",
+						"label": "Ruby Debug: Launch",
+						"description": "Run a file in the workspace",
 						"body": {
 							"type": "ruby-debug",
 							"request": "launch",
-							"name": "Ask for file name",
-							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
-							"stopOnEntry": true
-						}
-					},
-					{
-						"label": "Ruby Debug: Launch File",
-						"description": "Run a workspace file",
-						"body": {
-							"type": "ruby-debug",
-							"request": "launch",
-							"name": "Run file",
-							"program": "^\"\\${workspaceFolder}/\\main.rb\"",
-							"stopOnEntry": true
+							"name": "Launch File",
+							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\""
 						}
 					},
 					{
 						"label": "Ruby Debug: Attach",
-						"description": "Attach to a running debugger",
+						"description": "Attach to Debugger",
 						"body": {
 							"type": "ruby-debug",
 							"request": "attach",
-							"name": "Attach",
-							"stopOnEntry": true
+							"name": "Attach to Debugger",
+							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\""
 						}
 					}
 				],

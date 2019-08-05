@@ -4,35 +4,47 @@ import { ChildProcess } from 'child_process';
 const crossSpawn = require('cross-spawn');
 
 export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptorFactory {
-	private process?: ChildProcess;
-
 	createDebugAdapterDescriptor(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
 		return new Promise((resolve, reject) => {
-			let process: ChildProcess = crossSpawn('readapt', ['server']);
-			let started = false;
+			let socket = new Net.Socket();
+			let host = session.configuration.host || '127.0.0.1';
+			let port = session.configuration.port || 1234;
 
-			process.stderr.on('data', (buffer: Buffer) => {
-				let text = buffer.toString();
-				if (!started && text.match(/^Readapt Debugger/)) {
-					started = true;
-					let socket = new Net.Socket();
-					socket.on('connect', () => {
-						resolve(new vscode.DebugAdapterServer(1234, '127.0.0.1'));
-					});
-					socket.connect(1234, '127.0.0.1');
-				}
-				vscode.debug.activeDebugConsole.append(text);
+			socket.on('connect', () => {
+				resolve(new vscode.DebugAdapterServer(port, host));
 			});
 
-			process.stdout.on('data', (buffer: Buffer) => {
-				vscode.debug.activeDebugConsole.append(buffer.toString());
-			});
+			if (session.configuration.request === 'attach') {
+				socket.on('error', (err) => {
+					reject(err);
+				});
+				socket.connect(port, host);
+			} else {
+				let process: ChildProcess = crossSpawn('readapt', ['serve', '--host', host, '--port', port]);
+				let started = false;
+
+				process.stderr.on('data', (buffer: Buffer) => {
+					let text = buffer.toString();
+					if (!started && text.match(/^Readapt Debugger/)) {
+						started = true;
+						socket.connect(port, host);
+					}
+				});
+				process.on('error', (err) => {
+					if (started) {
+						throw (err);
+					} else {
+						reject(err);
+					}
+				});
+				process.stdout.on('data', (buffer: Buffer) => {
+					vscode.debug.activeDebugConsole.append(buffer.toString());
+				});
+			}
 		});
 	}
 
 	dispose() {
-		if (this.process) {
-			this.process.kill();
-		}
+		// Nothing to do
 	}
 }
