@@ -29,6 +29,11 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 				}
 				let dbg = (session.configuration.debugger || 'readapt');
 				let dbgArgs = ['serve'].concat(session.configuration.debuggerArgs || []);
+				if (session.configuration.useBundler) {
+					dbgArgs.unshift(dbg);
+					dbgArgs.unshift('exec');
+					dbg = 'bundle';
+				}
 				let process = rubySpawn(dbg, dbgArgs, opts);
 				let started = false;
 				process.stderr.on('data', (buffer: Buffer) => {

@@ -8,7 +8,7 @@
 
 * Standard breakpoints
 * Local and global variable data
-* Multiple thread support
+* Individual thread control
 * Next, step in, step out
 
 ## Requirements
@@ -42,12 +42,17 @@ Click the dropdown at the top of the Debug view and click "Add Configuration."
 
 The simplest configuration is "Launch." It will start the debugger with a Ruby file in your workspace. The default behavior is to prompt the user for a file. You can set the `program` option to a specific file instead; e.g., `"program": "${workspaceFolder}/path/to/your/file.rb"`.
 
-The debugger can also launch external Ruby executables. The configuration snippets include examples for debugging Rails and RSpec.
+### Debugging External Programs
+
+The debugger can also launch external Ruby executables. The debug configuration snippets include an example for debugging RSpec.
+
+### Using Bundler
+
+Launch configurations include a `useBundler` option. If it's `true`, the debugger will start with `bundle exec readapt serve` before launching the program.
 
 ## Work in Progress
 
 * Conditional breakpoints
 * Multiple stack frames per thread
-* Individual thread control
 * Evaluate expressions
 * Use rvm/rbenv rubies

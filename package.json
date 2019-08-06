@@ -68,7 +68,7 @@
 				"type": "ruby-debug",
 				"label": "Ruby Debug",
 				"configurationAttributes": {
-					"launch": {
+					"attach": {
 						"required": [
 							"program"
 						],
@@ -95,7 +95,7 @@
 							}
 						}
 					},
-					"attach": {
+					"launch": {
 						"required": [
 							"program"
 						],
@@ -104,6 +104,11 @@
 								"type": "string",
 								"description": "Absolute path to a Ruby file.",
 								"default": "${workspaceFolder}/${command:AskForProgramName}"
+							},
+							"programArgs": {
+								"type": "array",
+								"description": "Arguments for the program being debugged",
+								"default": []
 							},
 							"debugger": {
 								"type": "string",
@@ -119,6 +124,11 @@
 									"--port",
 									"1234"
 								]
+							},
+							"useBundler": {
+								"type": "boolean",
+								"description": "Start the debugger with Bundler",
+								"default": false
 							}
 						}
 					}
@@ -128,9 +138,7 @@
 						"type": "ruby-debug",
 						"request": "launch",
 						"name": "Launch File",
-						"program": "${workspaceFolder}/${command:AskForProgramName}",
-						"host": "127.0.0.1",
-						"port": 1234
+						"program": "${workspaceFolder}/${command:AskForProgramName}"
 					}
 				],
 				"configurationSnippets": [
@@ -142,12 +150,13 @@
 							"request": "launch",
 							"name": "Launch File",
 							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
-							"programArgs": []
+							"programArgs": [],
+							"useBundler": false
 						}
 					},
 					{
 						"label": "Ruby Debug: RSpec",
-						"description": "Debug specs",
+						"description": "Run RSpec in a debugger",
 						"body": {
 							"type": "ruby-debug",
 							"request": "launch",
@@ -155,20 +164,8 @@
 							"program": "rspec",
 							"programArgs": [
 								"${workspaceFolder}"
-							]
-						}
-					},
-					{
-						"label": "Ruby Debug: Rails",
-						"description": "Debug Rails",
-						"body": {
-							"type": "ruby-debug",
-							"request": "launch",
-							"name": "Rails",
-							"program": "rails",
-							"programArgs": [
-								"s"
-							]
+							],
+							"useBundler": false
 						}
 					},
 					{
