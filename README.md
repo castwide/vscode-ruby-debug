@@ -42,7 +42,7 @@ Click the dropdown at the top of the Debug view and click "Add Configuration."
 
 The simplest configuration is "Launch." It will start the debugger with a Ruby file in your workspace. The default behavior is to prompt the user for a file. You can set the `program` option to a specific file instead; e.g., `"program": "${workspaceFolder}/path/to/your/file.rb"`.
 
-The debugger can also run programs that require external Ruby executables. The configuration snippets include examples for debugging Rails and RSpec.
+The debugger can also launch external Ruby executables. The configuration snippets include examples for debugging Rails and RSpec.
 
 ## Work in Progress
 

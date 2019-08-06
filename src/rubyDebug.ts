@@ -6,14 +6,18 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 	createDebugAdapterDescriptor(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
 		return new Promise((resolve, reject) => {
 			let socket = new Net.Socket();
-			let host = session.configuration.host || '127.0.0.1';
-			let port = session.configuration.port || 1234;
 
 			socket.on('connect', () => {
-				resolve(new vscode.DebugAdapterServer(port, host));
+				if (socket.remotePort && socket.remoteAddress) {
+					resolve(new vscode.DebugAdapterServer(socket.remotePort, socket.remoteAddress));
+				} else {
+					reject(new Error("Connection to debugger could not be resolved"));
+				}
 			});
 
 			if (session.configuration.request === 'attach') {
+				let host = session.configuration.host || '127.0.0.1';
+				let port = session.configuration.port || 1234;
 				socket.on('error', (err) => {
 					reject(err);
 				});
@@ -23,26 +27,34 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 				if (session.workspaceFolder) {
 					opts['cwd'] = session.workspaceFolder.uri.fsPath;
 				}
-				console.log('Workspace: ' + opts['cwd']);
-				let process = rubySpawn('readapt', ['serve', '--host', host, '--port', port], opts);
+				let dbg = (session.configuration.debugger || 'readapt');
+				let dbgArgs = ['serve'].concat(session.configuration.debuggerArgs || []);
+				let process = rubySpawn(dbg, dbgArgs, opts);
 				let started = false;
-
 				process.stderr.on('data', (buffer: Buffer) => {
 					let text = buffer.toString();
-					if (!started && text.match(/^Readapt Debugger/)) {
-						started = true;
-						socket.connect(port, host);
-					}
-				});
-				process.on('error', (err) => {
-					if (started) {
-						throw (err);
+					if (!started) {
+						if (text.match(/^Readapt Debugger/)) {
+							let match = text.match(/HOST=([^\s]*)[\s]+PORT=([0-9]*)/);
+							if (match) {
+								started = true;
+								socket.connect(parseInt(match[2]), match[1]);
+							} else {
+								reject(new Error("Unable to determine debugger host and port"));
+							}
+						}
 					} else {
-						reject(err);
+						// HACK: Sometimes Readapt's STDERR does not get
+						// redirected, e.g., while running RSpec. Appending
+						// data from here ensures that error messages still
+						// appear in the debug console.
+						vscode.debug.activeDebugConsole.append(text);
 					}
 				});
-				process.stdout.on('data', (buffer: Buffer) => {
-					vscode.debug.activeDebugConsole.append(buffer.toString());
+				process.on('exit', (code) => {
+					if (!started) {
+						reject(new Error(`Debugger exited without connecting (exit code ${code}`));
+					}
 				});
 			}
 		});

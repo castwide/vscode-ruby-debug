@@ -1,7 +1,7 @@
 {
 	"name": "ruby-debug",
 	"displayName": "Ruby Debug",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "castwide",
 	"description": "A Ruby debugger that uses the Debug Adapter Protocol.",
 	"author": {
@@ -83,20 +83,15 @@
 								"description": "Arguments for the program being debugged",
 								"default": []
 							},
-							"debuggerProgram": {
+							"host": {
 								"type": "string",
-								"description": "The path to the readapt executable.",
-								"default": "readapt"
+								"description": "The debugger host",
+								"default": "127.0.0.1"
 							},
-							"debuggerProgramArgs": {
-								"type": "array",
-								"description": "Arguments for the debugger",
-								"default": [
-									"--host",
-									"127.0.0.1",
-									"--port",
-									"1234"
-								]
+							"port": {
+								"type": "integer",
+								"description": "The debugger port",
+								"default": 1234
 							}
 						}
 					},
@@ -183,7 +178,9 @@
 							"type": "ruby-debug",
 							"request": "attach",
 							"name": "Attach to Debugger",
-							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\""
+							"program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
+							"host": "127.0.0.1",
+							"port": 1234
 						}
 					}
 				],
