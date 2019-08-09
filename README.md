@@ -50,6 +50,8 @@ The debugger can also launch external Ruby executables. The debug configuration 
 
 Launch configurations include a `useBundler` option. If it's `true`, the debugger will start with `bundle exec readapt serve` before launching the program.
 
+Note that `readapt` must be included in your Gemfile for `useBundler` to work.
+
 ## Known Issues
 
 * Pause button only works after the debugger has hit at least one breakpoint

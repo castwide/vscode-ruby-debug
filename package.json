@@ -1,7 +1,7 @@
 {
 	"name": "ruby-debug",
 	"displayName": "Ruby Debug",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"publisher": "castwide",
 	"description": "A Ruby debugger that uses the Debug Adapter Protocol.",
 	"author": {
@@ -111,7 +111,9 @@
 						"type": "ruby-debug",
 						"request": "launch",
 						"name": "Launch File",
-						"program": "${workspaceFolder}/${command:AskForProgramName}"
+						"program": "${workspaceFolder}/${command:AskForProgramName}",
+						"programArgs": [],
+						"useBundler": false
 					}
 				],
 				"configurationSnippets": [
@@ -136,7 +138,7 @@
 							"name": "RSpec",
 							"program": "rspec",
 							"programArgs": [
-								"${workspaceFolder}"
+								"^\"\\${workspaceFolder}\""
 							],
 							"useBundler": false
 						}
