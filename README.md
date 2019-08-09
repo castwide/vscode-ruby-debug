@@ -25,6 +25,8 @@ Or add it to your project's Gemfile:
 gem 'readapt', group :development
 ```
 
+Readapt requires Ruby >= 2.2.
+
 ## Usage
 
 If you're not familiar with VS Code's debugger, see [the debugger documentation](https://code.visualstudio.com/docs/editor/debugging) for more information.
