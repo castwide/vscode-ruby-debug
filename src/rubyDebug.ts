@@ -58,7 +58,11 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 				});
 				process.on('exit', (code) => {
 					if (!started) {
-						reject(new Error(`Debugger exited without connecting (exit code ${code}`));
+						let message = `Debugger exited without connecting (exit code ${code})`;
+						if (session.configuration.useBundler) {
+							message += "\nIs readapt included in your Gemfile?"
+						}
+						reject(new Error(message));
 					}
 				});
 			}
