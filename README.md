@@ -11,6 +11,7 @@
 * Pause while running
 * Individual thread control
 * Next, step in, step out
+* Debug remote hosts
 
 ## Requirements
 

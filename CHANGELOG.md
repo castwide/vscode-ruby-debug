@@ -1,6 +1,8 @@
-## 0.2.1 - August 12, 2019
+## 0.3.0 - August 10, 2019
 - Descriptive error message
 - Default `program` setting
+- Updated engine
+- Machine-scoped settings
 
 ## 0.2.0 - August 7, 2019
 - Workspace folder and program argument support

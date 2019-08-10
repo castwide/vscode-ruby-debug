@@ -1,7 +1,7 @@
 {
 	"name": "ruby-debug",
 	"displayName": "Ruby Debug",
-	"version": "0.2.1",
+	"version": "0.3.0",
 	"publisher": "castwide",
 	"description": "A Ruby debugger that uses the Debug Adapter Protocol.",
 	"author": {
@@ -13,9 +13,10 @@
 		"debug adapter protocol"
 	],
 	"engines": {
-		"vscode": "^1.30.0-insider",
+		"vscode": "^1.31.0",
 		"node": "^8.9.3"
 	},
+	"extensionKind": "workspace",
 	"icon": "vscode-ruby-debug.png",
 	"categories": [
 		"Debuggers"
