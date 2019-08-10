@@ -11,7 +11,6 @@
 * Pause while running
 * Individual thread control
 * Next, step in, step out
-* Debug remote hosts
 
 ## Requirements
 
@@ -62,3 +61,4 @@ Note that `readapt` must be included in your Gemfile for `useBundler` to work.
 * Multiple stack frames per thread
 * Evaluate expressions
 * Use rvm/rbenv rubies
+* Debug on remote hosts

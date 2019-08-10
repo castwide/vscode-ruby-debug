@@ -1,3 +1,6 @@
+## 0.3.1 - August 10, 2019
+- Clean recompile
+
 ## 0.3.0 - August 10, 2019
 - Descriptive error message
 - Default `program` setting
