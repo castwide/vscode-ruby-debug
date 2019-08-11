@@ -1,7 +1,7 @@
 {
 	"name": "ruby-debug",
 	"displayName": "Ruby Debug",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"publisher": "castwide",
 	"description": "A Ruby debugger that uses the Debug Adapter Protocol.",
 	"author": {
@@ -39,18 +39,19 @@
 	},
 	"dependencies": {
 		"await-notify": "1.0.1",
-		"ruby-spawn": "1.0.0",
+		"ps-tree": "1.2.0",
+		"ruby-spawn": "1.2.0",
 		"vscode-debugadapter": "1.33.0"
 	},
 	"devDependencies": {
-		"@types/node": "8.9.3",
 		"@types/mocha": "5.2.5",
-		"typescript": "3.1.6",
+		"@types/node": "8.9.3",
 		"mocha": "5.2.0",
-		"vscode": "1.1.21",
-		"vscode-debugadapter-testsupport": "1.33.0",
 		"tslint": "5.11.0",
-		"vsce": "1.53.2"
+		"typescript": "3.1.6",
+		"vsce": "1.53.2",
+		"vscode": "^1.1.36",
+		"vscode-debugadapter-testsupport": "1.33.0"
 	},
 	"main": "./out/extension",
 	"activationEvents": [

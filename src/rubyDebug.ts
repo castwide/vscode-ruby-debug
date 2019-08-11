@@ -1,11 +1,13 @@
 import * as vscode from 'vscode';
 import * as Net from 'net';
 import { rubySpawn } from 'ruby-spawn';
+import { ChildProcess } from 'child_process';
 
 export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptorFactory {
 	createDebugAdapterDescriptor(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
 		return new Promise((resolve, reject) => {
 			let socket = new Net.Socket();
+			let child: ChildProcess;
 
 			socket.on('connect', () => {
 				if (socket.remotePort && socket.remoteAddress) {
@@ -14,13 +16,16 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 					reject(new Error("Connection to debugger could not be resolved"));
 				}
 			});
+			socket.on('error', (err) => {
+				if (child) {
+					child.kill();
+				}
+				reject(err);
+			});
 
 			if (session.configuration.request === 'attach') {
 				let host = session.configuration.host || '127.0.0.1';
 				let port = session.configuration.port || 1234;
-				socket.on('error', (err) => {
-					reject(err);
-				});
 				socket.connect(port, host);
 			} else {
 				let opts = {};
@@ -34,9 +39,9 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 					dbgArgs.unshift('exec');
 					dbg = 'bundle';
 				}
-				let process = rubySpawn(dbg, dbgArgs, opts);
+				child = rubySpawn(dbg, dbgArgs, opts, true);
 				let started = false;
-				process.stderr.on('data', (buffer: Buffer) => {
+				child.stderr.on('data', (buffer: Buffer) => {
 					let text = buffer.toString();
 					if (!started) {
 						if (text.match(/^Readapt Debugger/)) {
@@ -56,7 +61,7 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 						vscode.debug.activeDebugConsole.append(text);
 					}
 				});
-				process.on('exit', (code) => {
+				child.on('exit', (code) => {
 					if (!started) {
 						let message = `Debugger exited without connecting (exit code ${code})`;
 						if (session.configuration.useBundler) {

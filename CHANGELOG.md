@@ -1,3 +1,6 @@
+## 0.3.2 - August 11, 2019
+- Updated ruby-spawn
+
 ## 0.3.1 - August 10, 2019
 - Clean recompile
 
