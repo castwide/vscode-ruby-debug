@@ -8,9 +8,11 @@
 
 * Standard breakpoints
 * Local and global variable data
-* Pause while running
-* Individual thread control
 * Next, step in, step out
+* Pause while running
+* Evaluate expressions in debug console
+* Individual thread control
+* Remote workspace support
 
 ## Requirements
 
@@ -59,6 +61,3 @@ Note that `readapt` must be included in your Gemfile for `useBundler` to work.
 
 * Conditional breakpoints
 * Multiple stack frames per thread
-* Evaluate expressions
-* Use rvm/rbenv rubies
-* Debug on remote hosts
