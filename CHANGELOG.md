@@ -1,3 +1,6 @@
+## 0.3.3 - September 10, 2019
+- Console output
+
 ## 0.3.2 - August 11, 2019
 - Updated ruby-spawn
 

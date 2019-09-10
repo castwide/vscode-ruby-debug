@@ -53,13 +53,12 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 								reject(new Error("Unable to determine debugger host and port"));
 							}
 						}
-					} else {
-						// HACK: Sometimes Readapt's STDERR does not get
-						// redirected, e.g., while running RSpec. Appending
-						// data from here ensures that error messages still
-						// appear in the debug console.
-						vscode.debug.activeDebugConsole.append(text);
 					}
+					vscode.debug.activeDebugConsole.append(text);
+				});
+				child.stdout.on('data', (buffer: Buffer) => {
+					let text = buffer.toString();
+					vscode.debug.activeDebugConsole.append(text);
 				});
 				child.on('exit', (code) => {
 					if (!started) {
