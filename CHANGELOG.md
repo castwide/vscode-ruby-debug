@@ -1,3 +1,6 @@
+## 0.3.4 - October 12, 2019
+- Updated README
+
 ## 0.3.3 - September 10, 2019
 - Console output
 

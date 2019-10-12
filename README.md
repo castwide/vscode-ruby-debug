@@ -7,6 +7,7 @@
 ## Features
 
 * Standard breakpoints
+* Conditional breakpoints (with readapt >= 0.7.0)
 * Local and global variable data
 * Next, step in, step out
 * Pause while running
@@ -57,7 +58,60 @@ Launch configurations include a `useBundler` option. If it's `true`, the debugge
 
 Note that `readapt` must be included in your Gemfile for `useBundler` to work.
 
+### Example Configurations
+
+The following snippets demonstrate some common launch configurations you can add to `launch.json`.
+
+#### Debug Active File
+
+```
+{
+    "type": "ruby-debug",
+    "request": "launch",
+    "name": "Active File",
+    "program": "${file}",
+    "programArgs": [],
+    "useBundler": false
+}
+```
+
+#### Debug Active RSpec File
+
+```
+{
+    "type": "ruby-debug",
+    "request": "launch",
+    "name": "RSpec (Active File)",
+    "program": "rspec",
+    "programArgs": [
+        "-I",
+        "${workspaceFolder}",
+        "${file}"
+    ],
+    "useBundler": false
+}
+```
+
+#### Debug Rails
+
+```
+{
+    "type": "ruby-debug",
+    "request": "launch",
+    "name": "Rails",
+    "program": "${workspaceFolder}/bin/rails",
+    "programArgs": ["s"],
+    "useBundler": true
+}
+```
+
+**Note:** Make sure the readapt gem is included in your Gemfile, e.g.:
+
+```ruby
+gem 'readapt', group: :development
+```
+
 ## Work in Progress
 
-* Conditional breakpoints
 * Multiple stack frames per thread
+* Hit counts

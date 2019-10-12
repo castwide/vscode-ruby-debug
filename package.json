@@ -1,7 +1,7 @@
 {
 	"name": "ruby-debug",
 	"displayName": "Ruby Debug",
-	"version": "0.3.3",
+	"version": "0.3.4",
 	"publisher": "castwide",
 	"description": "A Ruby debugger that uses the Debug Adapter Protocol.",
 	"author": {
