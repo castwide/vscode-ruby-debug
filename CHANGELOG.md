@@ -1,3 +1,7 @@
+## 0.3.5 - November 9, 2019
+- Error message for non-zero exit codes
+- Updated README
+
 ## 0.3.4 - October 12, 2019
 - Updated README
 

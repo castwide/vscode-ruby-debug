@@ -67,6 +67,8 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 							message += "\nIs readapt included in your Gemfile?"
 						}
 						reject(new Error(message));
+					} else if (code !== 0) {
+						vscode.window.showErrorMessage(`Debugger exited with code ${code}`);
 					}
 				});
 			}

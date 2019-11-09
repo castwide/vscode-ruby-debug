@@ -6,13 +6,13 @@
 
 ## Features
 
-* Standard breakpoints
-* Conditional breakpoints (with readapt >= 0.7.0)
+* Standard, conditional, and hitcount breakpoints (with readapt >= 0.8.0)
 * Local and global variable data
 * Next, step in, step out
 * Pause while running
 * Evaluate expressions in debug console
 * Individual thread control
+* Traversable stack traces
 * Remote workspace support
 
 ## Requirements
@@ -105,13 +105,9 @@ The following snippets demonstrate some common launch configurations you can add
 }
 ```
 
-**Note:** Make sure the readapt gem is included in your Gemfile, e.g.:
+**Note:** If `useBundler` is `true`, make sure the readapt gem is included in your Gemfile, e.g.:
 
 ```ruby
 gem 'readapt', group: :development
 ```
 
-## Work in Progress
-
-* Multiple stack frames per thread
-* Hit counts
