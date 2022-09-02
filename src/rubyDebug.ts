@@ -23,6 +23,8 @@ export class RubyDebugAdapterDescriptorFactory implements vscode.DebugAdapterDes
 				reject(err);
 			});
 
+			Object.assign(process.env, session.configuration.env);
+
 			if (session.configuration.request === 'attach') {
 				let host = session.configuration.host || '127.0.0.1';
 				let port = session.configuration.port || 1234;
