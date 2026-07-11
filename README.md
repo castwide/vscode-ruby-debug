@@ -1,8 +1,8 @@
 # Ruby Debug
 
-**A native Ruby debugger using the Debug Adapter Protocol.**
+**A Ruby debugger using the Debug Adapter Protocol.**
 
-*This extension is still in early development. Please report bugs at [https://github.com/castwide/vscode-ruby-debug](https://github.com/castwide/vscode-ruby-debug).*
+**This project is no longer maintained.** It was designed to use the Readapt gem to provide DAP support for Ruby 2. As of Ruby 3, the native `rdbg` debugger is capable of connecting to debug adapters, so Readapt is no longer necessary. For Visual Studio Code, the [VSCode rdbg Ruby Debugger](https://marketplace.visualstudio.com/items?itemName=KoichiSasada.vscode-rdbg) is a solid alternative.
 
 ## Features
 
